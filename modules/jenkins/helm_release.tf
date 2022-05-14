@@ -1,18 +1,19 @@
 
 provider "helm" {
   kubernetes {
-    config_path = "/home/amir/.kube/config"
+    config_path = "~/.kube/config"
   }
 }
 
 
-resource "helm_release" "jenkins02" {
-  name       = "jenkins02"
-  repository = "https://charts.jenkins.io"
+resource "helm_release" "jenkins" {
+  name       = "jenkins"
+  repository = "./helm"
   chart      = "jenkins"
+  namespace  = "jenkins"
 
   values = [
-    "${file("./helm/jenkins-values.yaml")}"
+    "${file("./helm/values.yaml")}"
   ]
 
   set_sensitive {

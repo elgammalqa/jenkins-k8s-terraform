@@ -313,12 +313,12 @@ controller:
           - kubernetes:
               containerCap: 10
               containerCapStr: "10"
-              jenkinsTunnel: "jenkinstest12-agent.default.svc.cluster.local:50000"
-              jenkinsUrl: "http://jenkinstest12.default.svc.cluster.local:8080"
+              jenkinsTunnel: "jenkins-agent.default.svc.cluster.local:50000"
+              jenkinsUrl: "http://jenkins.default.svc.cluster.local:8080"
               name: "kubernetes"
               namespace: "default"
               podLabels:
-              - key: "jenkins/jenkinstest12-jenkins-agent"
+              - key: "jenkins/jenkins-jenkins-agent"
                 value: "true"
               serverUrl: "https://kubernetes.default"
               templates:
@@ -327,7 +327,7 @@ controller:
                   envVars:
                   - envVar:
                       key: "JENKINS_URL"
-                      value: "http://jenkinstest12.default.svc.cluster.local:8080/"
+                      value: "http://jenkins.default.svc.cluster.local:8080/"
                   image: "jenkins/inbound-agent:4.11.2-4"
                   name: "jnlp"
                   resourceLimitCpu: "512m"
@@ -336,7 +336,7 @@ controller:
                   resourceRequestMemory: "512Mi"
                   workingDir: "/home/jenkins/agent"
                 id: "88c1899715024d94f9bccb7bdf9b88ce84e19b3a6a2284c51f3152ea6b10f420"
-                label: "jenkinstest10-jenkins-agent"
+                label: "jenkins-jenkins-agent"
                 name: "default"
                 namespace: "default"
                 nodeUsageMode: NORMAL
@@ -351,7 +351,7 @@ controller:
           disableRememberMe: false
           labelAtoms:
           - name: "built-in"
-          - name: "jenkinstest10-jenkins-agent"
+          - name: "jenkins-jenkins-agent"
           markupFormatter: "plainText"
           mode: NORMAL
           myViewsTabBar: "standard"
@@ -403,7 +403,7 @@ controller:
             storage: "file"
           location:
             adminAddress: "address not configured yet <nobody@nowhere>"
-            url: "http://jenkinstest12:8080/"
+            url: "http://jenkins:8080/"
           mailer:
             charset: "UTF-8"
             useSsl: false
@@ -814,19 +814,19 @@ agent:
   # Raw yaml template for the Pod. For example this allows usage of toleration for agent pods.
   # https://github.com/jenkinsci/kubernetes-plugin#using-yaml-to-define-pod-templates
   # https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
-  yamlTemplate:
-    apiVersion: v1
-    kind: Pod
-    spec:
-      securityContext:
-        runAsUser: 1000 # default UID of jenkins user in agent image
-      serviceAccount: jenkins
-      containers:
-      - name: helm
-        image: alpine/helm
-        command:
-        - helm version
-        tty: true
+  yamlTemplate: {}
+    # apiVersion: v1
+    # kind: Pod
+    # spec:
+    #   securityContext:
+    #     runAsUser: 1000 # default UID of jenkins user in agent image
+    #   serviceAccount: jenkins
+    #   containers:
+    #   - name: helm
+    #     image: alpine/helm
+    #     command:
+    #     - helm version
+    #     tty: true
   # yamlTemplate: |-
   #   apiVersion: v1
   #   kind: Pod
@@ -935,8 +935,8 @@ networkPolicy:
 
 ## Install Default RBAC roles and bindings
 rbac:
-  create: true
-  readSecrets: true
+  create: false
+  readSecrets: false
 
 serviceAccount:
   create: false

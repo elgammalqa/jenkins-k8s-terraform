@@ -8,7 +8,7 @@ provider "helm" {
 
 resource "helm_release" "jenkins" {
   name       = "jenkins"
-  repository = "./helm"
+  repository = "jenkins"
   chart      = "jenkins"
   namespace  = "jenkins"
 
